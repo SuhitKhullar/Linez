@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/andre/OneDrive/Fall 2021/COMP SCI 407/Linez App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2708333333333333" />
-        <entry key="..\:/Users/andre/OneDrive/Fall 2021/COMP SCI 407/Linez App/app/src/main/res/layout/activity_login.xml" value="0.2546875" />
-        <entry key="..\:/Users/andre/OneDrive/Fall 2021/COMP SCI 407/Linez App/app/src/main/res/layout/activity_main.xml" value="0.2546875" />
+        <entry key="app/src/main/res/layout/activity_entrance_page.xml" value="0.24589513397627238" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2407245216386632" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.15081521739130435" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2984375" />
       </map>
     </option>
   </component>
