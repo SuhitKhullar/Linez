@@ -13,6 +13,9 @@
             android:name=".Profile"
             android:exported="true" />
         <activity
+            android:name=".results"
+            android:exported="true" />
+        <activity
             android:name=".Search"
             android:exported="true" />
         <activity
