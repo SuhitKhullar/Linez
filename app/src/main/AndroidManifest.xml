@@ -25,7 +25,7 @@
             android:name=".Login"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".EntrancePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

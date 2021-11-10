@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EED6C4"
     tools:context=".EntrancePage">
 
     <Button
@@ -11,6 +12,7 @@
         android:layout_width="218dp"
         android:layout_height="59dp"
         android:text="Login"
+        android:onClick="onClick2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -24,12 +26,14 @@
         android:layout_width="218dp"
         android:layout_height="59dp"
         android:text="Register"
+        android:onClick="onClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.869" />
+
 
     <ImageView
         android:id="@+id/imageView2"
@@ -41,5 +45,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.231"
-        app:srcCompat="@drawable/linezLogo" />
+        app:srcCompat="@drawable/linez_logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
