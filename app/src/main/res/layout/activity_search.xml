@@ -30,17 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="249dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="44dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapView" />
-
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
@@ -65,10 +54,16 @@
         android:id="@+id/testLoggedIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
         android:layout_marginEnd="36dp"
         android:text='"Logged in!"'
         android:textColor="#100E0E"
         app:layout_constraintEnd_toStartOf="@+id/button4"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        tools:layout_editor_absoluteY="605dp" />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="409dp"
+        android:layout_height="312dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="292dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
