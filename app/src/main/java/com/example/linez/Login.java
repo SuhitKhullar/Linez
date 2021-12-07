@@ -23,7 +23,7 @@ public class Login extends AppCompatActivity {
     EditText username;
     EditText password;
     Button loginClicked;
-    private FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,44 +34,41 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.loginPassword);
         loginClicked = findViewById(R.id.loginClicked);
 
-        loginClicked.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String user = username.getText().toString();
-                String pwd = password.getText().toString();
+        mAuth = FirebaseAuth.getInstance();
 
-                if (TextUtils.isEmpty(user)) {
-                    username.setError("Email is required");
-                }
-
-                if (TextUtils.isEmpty(pwd)) {
-                    password.setError("Password is required");
-                }
-
-                if (pwd.length() < 6) {
-                    password.setError("Password must be at least 6 characters");
-                }
-
-
-
-                mAuth.signInWithEmailAndPassword(user,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        }else{
-                            Toast.makeText(Login.this, "Error!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-            }
-
-
-
+        loginClicked.setOnClickListener(view -> {
+            loginUser();
         });
 
+    }
 
+    private void loginUser() {
+        String email = username.getText().toString();
+        String pwd = password.getText().toString();
+
+        //check if email and password empty
+        if(TextUtils.isEmpty(email)){
+            username.setError("Email cannot be empty!");
+            username.requestFocus();
+        }
+        else if(TextUtils.isEmpty(pwd)){
+            password.setError("Password cannot be empty!");
+            password.requestFocus();
+        }
+        else{
+            mAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(Login.this,"User logged in successfully!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(Login.this, search.class));
+                    }
+                    else{
+                        Toast.makeText(Login.this,"Login Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 
 //    public void goToMainActivity(){
