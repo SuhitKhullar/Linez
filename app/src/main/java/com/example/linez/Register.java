@@ -87,19 +87,19 @@ public class Register extends AppCompatActivity {
     //method to register a user
     private void createUser() {
         String email = username.getText().toString();
-        String password = username.getText().toString();
+        String pwd = password.getText().toString();
 
         //check if email and password empty
         if(TextUtils.isEmpty(email)){
             username.setError("Email cannot be empty!");
             username.requestFocus();
         }
-        else if(TextUtils.isEmpty(password)){
-            username.setError("Password cannot be empty!");
-            username.requestFocus();
+        else if(TextUtils.isEmpty(pwd)){
+            password.setError("Password cannot be empty!");
+            password.requestFocus();
         }
         else{
-            mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            mAuth.createUserWithEmailAndPassword(email,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){

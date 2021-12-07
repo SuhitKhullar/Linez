@@ -44,19 +44,19 @@ public class Login extends AppCompatActivity {
 
     private void loginUser() {
         String email = username.getText().toString();
-        String password = username.getText().toString();
+        String pwd = password.getText().toString();
 
         //check if email and password empty
         if(TextUtils.isEmpty(email)){
             username.setError("Email cannot be empty!");
             username.requestFocus();
         }
-        else if(TextUtils.isEmpty(password)){
-            username.setError("Password cannot be empty!");
-            username.requestFocus();
+        else if(TextUtils.isEmpty(pwd)){
+            password.setError("Password cannot be empty!");
+            password.requestFocus();
         }
         else{
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            mAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
