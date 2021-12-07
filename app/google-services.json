@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "725323307198",
+    "project_id": "linez-ac269",
+    "storage_bucket": "linez-ac269.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725323307198:android:a1527ea66cc15c2c89a6ef",
+        "android_client_info": {
+          "package_name": "com.example.linez"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725323307198-66mp4p66h8r8d76bh4378qup110eq4fq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFY1WJhh5tgENgOdACqisAl3Z1mDv34cg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725323307198-66mp4p66h8r8d76bh4378qup110eq4fq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
