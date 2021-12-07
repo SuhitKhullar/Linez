@@ -9,14 +9,23 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
-public class search extends AppCompatActivity {
+public class search extends AppCompatActivity   {
 
     FirebaseAuth mAuth;
+
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +36,29 @@ public class search extends AppCompatActivity {
         SearchView searchView = findViewById(R.id.searchView);
         ListView listView = findViewById(R.id.list);
 
+        ArrayList<LinezLocation> places = generateLocations();
 
 
-        populateSearchView(generateLocations(), listView);
+        populateSearchView(places, listView);
+        populateMap(places);
+
+
     }
+
+    private void populateMap(ArrayList<LinezLocation> places) {
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
+        mapFragment.getMapAsync(googleMap -> {
+            mMap = googleMap;
+            //code to display marker
+
+            for(LinezLocation location : places) {
+                googleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                        .title(location.getName()));
+            }
+        });
+    }
+
 
     @Override
     protected void onStart() {

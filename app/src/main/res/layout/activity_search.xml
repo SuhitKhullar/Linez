@@ -6,17 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".search">
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="0dp"
-        android:layout_height="198dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="93dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="0dp"
@@ -29,6 +18,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <fragment
+        android:id="@+id/mapView"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="0dp"
+        android:layout_height="198dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="93dp"
+
+
+        app:layout_constraintBottom_toTopOf="@+id/list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.564" />
+
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_marginTop="400dp"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 
     <Button
         android:id="@+id/button2"
@@ -50,20 +73,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/testLoggedIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:text='"Logged in!"'
-        android:textColor="#100E0E"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
-        tools:layout_editor_absoluteY="605dp" />
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="409dp"
-        android:layout_height="312dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="292dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
