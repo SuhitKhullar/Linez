@@ -5,12 +5,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -39,9 +41,8 @@ public class search extends AppCompatActivity   {
         ArrayList<LinezLocation> places = generateLocations();
 
 
-        populateSearchView(places, listView);
+        populateSearchView(places, listView, searchView);
         populateMap(places);
-
 
     }
 
@@ -82,7 +83,7 @@ public class search extends AppCompatActivity   {
         return places;
     }
 
-    public void populateSearchView(ArrayList<LinezLocation> places, ListView listView){
+    public void populateSearchView(ArrayList<LinezLocation> places, ListView listView, SearchView searchView){
         ArrayList<String> names = new ArrayList<String>();
         for(LinezLocation location : places){
             names.add(location.getName());
@@ -92,5 +93,13 @@ public class search extends AppCompatActivity   {
                 (this, android.R.layout.simple_list_item_1, names);
         listView.setAdapter(arrayAdapter);
 
+    }
+
+    public void goHome(View view) {
+        startActivity(new Intent(search.this, EntrancePage.class));
+    }
+
+    public void goProfile(View view) {
+        startActivity(new Intent(search.this, Profile.class));
     }
 }
