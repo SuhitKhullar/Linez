@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -40,6 +41,8 @@ public class search extends AppCompatActivity   {
 
     ArrayList<String> names;
 
+    ArrayList<LinezLocation> places;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +51,8 @@ public class search extends AppCompatActivity   {
 
         listView = findViewById(R.id.listView);
 
-        ArrayList<LinezLocation> places = generateLocations();
+        places = generateLocations();
+
         names = new ArrayList<>();
         for(LinezLocation location : places){
             names.add(location.getName());
@@ -57,6 +61,15 @@ public class search extends AppCompatActivity   {
         adapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_list_item_1, names);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent goToResults = new Intent(search.this, results.class);
+                goToResults.putExtra("name",places.get(position).getName());
+                goToResults.putExtra("wait",places.get(position).getCurWait());
+                startActivity(goToResults);
+            }
+        });
 
         populateMap(places);
 
