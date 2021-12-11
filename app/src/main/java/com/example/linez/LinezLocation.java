@@ -1,6 +1,11 @@
 package com.example.linez;
 
-public class LinezLocation {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class LinezLocation implements Serializable  {
 
     public double Latitude;
     public double Longitude;
@@ -46,8 +51,5 @@ public class LinezLocation {
     public void setCurWait(double curWait) {
         this.curWait = curWait;
     }
-
-
-
 
 }
