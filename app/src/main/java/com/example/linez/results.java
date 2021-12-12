@@ -42,6 +42,7 @@ public class results extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12;
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    private String name;
 
     //DateFormat timeFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
     //Date rightNow = Calendar.getInstance().getTime();
@@ -77,7 +78,7 @@ public class results extends AppCompatActivity {
 
         Intent i = getIntent();
 
-        String name = i.getStringExtra("name");
+        name = i.getStringExtra("name");
 
         //Double wait = i.getDoubleExtra("wait", 15.00);
         //waitTime.setText("0");
@@ -86,12 +87,6 @@ public class results extends AppCompatActivity {
 
         yourTime.setText("4");
         //waitTime.setText(String.valueOf(wait) + " minutes");
-
-
-
-
-
-
 
         Map<String, Object> user = new HashMap<>();
 
@@ -173,7 +168,8 @@ public class results extends AppCompatActivity {
         void onCallback(List<String> List);
     }
 
-    private LatLng getMyLocation() {
+    public LatLng getMyLocation() {
+        //FIXME: having null issue
         final LatLng[] location = new LatLng[1];
         int permission = ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
         if (permission == PackageManager.PERMISSION_DENIED){
@@ -196,12 +192,43 @@ public class results extends AppCompatActivity {
         return location[0];
     }
 
+    public double getDistance(LatLng loc1, LatLng loc2){
+        double lon1 = Math.toRadians(loc1.longitude);
+        double lat1 = Math.toRadians(loc1.latitude);
+
+        double lon2 = Math.toRadians(loc2.longitude);
+        double lat2 = Math.toRadians(loc2.latitude);
+
+        double a = Math.pow(Math.sin((lat2 - lat1)/2), 2) +
+                Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin((lon2 - lon1)/2), 2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+        double radius = 6371;
+        return (c * radius);
+    }
+
     public void startClick(View view) {
         LatLng userLocation = getMyLocation();
-        //LatLng restaurantLocation = new LatLng();
-        //get location
-        //see if close to restaurant location
-        //if not 'print message that cannot submit time while not at restaurant'
-        //if yes then start timer until 'stop'
+        Log.i("results", "got user location successfully");
+
+        LatLng restaurantLocation = null;
+        ArrayList<LinezLocation> places = search.generateLocations();
+        for (LinezLocation place:places){
+            if (name.equals(place.getName()))
+                restaurantLocation = new LatLng(place.getLatitude(), place.getLongitude());
+        }
+
+        Log.i("results", "got restaurant location successfully");
+
+        //double distance = getDistance(userLocation, restaurantLocation);
+       // Log.i("results", "distance: " + String.valueOf(distance));
+
+//        if (distance <= 0.03){
+//            //TODO: start timer
+//        }
+//        else{
+//            // "error must be within 100ft of restaurant to report line times"
+//        }
     }
 }

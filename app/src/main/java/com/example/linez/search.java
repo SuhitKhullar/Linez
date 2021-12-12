@@ -95,7 +95,7 @@ public class search extends AppCompatActivity   {
 
     }
 
-    public ArrayList<LinezLocation> generateLocations(){
+    public static ArrayList<LinezLocation> generateLocations(){
 
         ArrayList<LinezLocation> places = new ArrayList<>();
 
