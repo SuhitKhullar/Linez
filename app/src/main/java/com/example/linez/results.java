@@ -4,13 +4,21 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.util.LayoutDirection;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,23 +28,21 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Calendar;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class results extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+
     //DateFormat timeFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
     //Date rightNow = Calendar.getInstance().getTime();
     //Calendar rightNow = Calendar.getInstance();
@@ -167,7 +173,35 @@ public class results extends AppCompatActivity {
         void onCallback(List<String> List);
     }
 
+    private LatLng getMyLocation() {
+        final LatLng[] location = new LatLng[1];
+        int permission = ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permission == PackageManager.PERMISSION_DENIED){
+            Log.i("Main Activity", "permission denied");
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+        else{
+            mFusedLocationProviderClient.getLastLocation()
+                    .addOnCompleteListener(this, task -> {
+                        Location mLastKnownLocation = task.getResult();
+                        Log.i("Main Activity", task.getResult() + " ");
+                        if (task.isSuccessful() && mLastKnownLocation != null){
+                            Log.i("Main Activity", task.getResult() + "successful");
+                            location[0] = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
+                        }
+                    });
+        }
+        return location[0];
+    }
 
-
-
+    public void startClick(View view) {
+        LatLng userLocation = getMyLocation();
+        //LatLng restaurantLocation = new LatLng();
+        //get location
+        //see if close to restaurant location
+        //if not 'print message that cannot submit time while not at restaurant'
+        //if yes then start timer until 'stop'
+    }
 }
