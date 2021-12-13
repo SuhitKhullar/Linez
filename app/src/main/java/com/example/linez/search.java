@@ -6,14 +6,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -43,6 +46,8 @@ public class search extends AppCompatActivity   {
 
     ArrayList<LinezLocation> places;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,14 +55,13 @@ public class search extends AppCompatActivity   {
         mAuth = FirebaseAuth.getInstance();
 
         listView = findViewById(R.id.listView);
-
         places = generateLocations();
+
 
         names = new ArrayList<>();
         for(LinezLocation location : places){
             names.add(location.getName());
         }
-
         adapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_list_item_1, names);
         listView.setAdapter(adapter);
