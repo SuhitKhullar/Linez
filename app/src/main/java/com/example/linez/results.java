@@ -12,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.LayoutDirection;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,7 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Calendar;
 import java.util.TimeZone;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 public class results extends AppCompatActivity {
@@ -117,21 +114,17 @@ public class results extends AppCompatActivity {
         //List itemList = new ArrayList<>();
 
         Log.d("apple",currentTimeHour);
-
         Intent i = getIntent();
-
         name = i.getStringExtra("name");
 
         //Double wait = i.getDoubleExtra("wait", 15.00);
         //waitTime.setText("0");
 
         placeName.setText(name);
-
-        yourTime.setText("4");
+        yourTime.setText(" ");
         //waitTime.setText(String.valueOf(wait) + " minutes");
 
         Map<String, Object> user = new HashMap<>();
-
         user.put(currentTimeHour,yourTime.getText());
 
         // Add a new document with a generated ID
@@ -156,21 +149,16 @@ public class results extends AppCompatActivity {
             public void onCallback(List<String> list) {
 
                 Log.d("cat", list.toString());
-
                 int total = 0;
                 Log.d("dog", Integer.toString(list.size()));
 //                for (int i = 0; i < list.size() ;i++){
 //                    Log.d("dog", Integer.toString(list.size()));
 //                }
 
-
-
                 //double averageTime = (total * 1.0) / list.size();
                 //waitTime.setText((int) averageTime);
             }
         });
-
-
     }
 
     private void readData(FireStoreCallback fireStoreCallback){
@@ -249,7 +237,7 @@ public class results extends AppCompatActivity {
         return (c * radius);
     }
 
-    public void startClick(View view) {
+    public void onSubmitClick(View view){
         LatLng userLocation = getMyLocation();
         Log.i("results", "got user location successfully");
 
@@ -267,11 +255,10 @@ public class results extends AppCompatActivity {
         double distance = getDistance(userLocation, restaurantLocation);
         Log.i("results", "distance: " + String.valueOf(distance));
 
-        if (distance <= 0.03){
-            //TODO: start timer
-        }
-        else{
+        if (distance >= 0.03){
             // "error must be within 100ft of restaurant to report line times"
         }
+
     }
+
 }

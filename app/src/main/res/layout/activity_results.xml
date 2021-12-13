@@ -9,23 +9,28 @@
     <TextView
         android:id="@+id/PlaceName"
         android:layout_width="300dp"
-        android:layout_height="93dp"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="550dp"
         android:text="Name"
         android:textAlignment="center"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/WaitTime"
         android:layout_width="300dp"
         android:layout_height="93dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
         android:text="Estimated Wait Time:"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PlaceName" />
 
@@ -33,7 +38,7 @@
         android:id="@+id/timerView"
         android:layout_width="309dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="116dp"
         android:text="YourTime"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,9 +49,8 @@
         android:id="@+id/start"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="28dp"
         android:background="#FFFFFF"
-        android:onClick="startClick"
         android:text="start"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/timerView"
@@ -54,5 +58,19 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="TextContrastCheck" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Submit"
+        android:onClick="onSubmitClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerView"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
