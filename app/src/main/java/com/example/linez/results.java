@@ -317,6 +317,8 @@ public class results extends AppCompatActivity {
             TextView yourTime = findViewById(R.id.timerView);
             //int time = yourTime.getText();
             //TODO: send to db
+            SuccessDialog successDialog = new SuccessDialog();
+            successDialog.show(getSupportFragmentManager(), "success dialog");
         }
     }
 }
