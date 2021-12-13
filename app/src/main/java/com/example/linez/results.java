@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,6 +63,7 @@ public class results extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         TextView placeName = findViewById(R.id.PlaceName);
         TextView waitTime = findViewById(R.id.WaitTime);
@@ -169,7 +171,6 @@ public class results extends AppCompatActivity {
     }
 
     public LatLng getMyLocation() {
-        //FIXME: having null issue
         final LatLng[] location = new LatLng[1];
         int permission = ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
         if (permission == PackageManager.PERMISSION_DENIED){
@@ -221,14 +222,16 @@ public class results extends AppCompatActivity {
 
         Log.i("results", "got restaurant location successfully");
 
-        //double distance = getDistance(userLocation, restaurantLocation);
-       // Log.i("results", "distance: " + String.valueOf(distance));
+        assert restaurantLocation != null;
+        assert userLocation != null;
+        double distance = getDistance(userLocation, restaurantLocation);
+        Log.i("results", "distance: " + String.valueOf(distance));
 
-//        if (distance <= 0.03){
-//            //TODO: start timer
-//        }
-//        else{
-//            // "error must be within 100ft of restaurant to report line times"
-//        }
+        if (distance <= 0.03){
+            //TODO: start timer
+        }
+        else{
+            // "error must be within 100ft of restaurant to report line times"
+        }
     }
 }
