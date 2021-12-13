@@ -64,8 +64,10 @@ public class search extends AppCompatActivity   {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent goToResults = new Intent(search.this, results.class);
+
                 goToResults.putExtra("name",places.get(position).getName());
                 goToResults.putExtra("wait",places.get(position).getCurWait());
+
                 startActivity(goToResults);
             }
         });

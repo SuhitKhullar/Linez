@@ -52,6 +52,8 @@ public class results extends AppCompatActivity {
     LocationManager locationManager;
     LocationListener locationListener;
 
+    List itemList;
+
     //DateFormat timeFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
     //Date rightNow = Calendar.getInstance().getTime();
     //Calendar rightNow = Calendar.getInstance();
@@ -126,15 +128,17 @@ public class results extends AppCompatActivity {
 
         Log.d("apple",currentTimeHour);
         Intent i = getIntent();
+
         name = i.getStringExtra("name");
 
-        //Double wait = i.getDoubleExtra("wait", 15.00);
+        Double wait = i.getDoubleExtra("wait", 15.00);
+
         //waitTime.setText("0");
 
         placeName.setText(name);
         yourTime.setText(" ");
         //waitTime.setText(String.valueOf(wait) + " minutes");
-
+/*
         Map<String, Object> user = new HashMap<>();
         user.put(currentTimeHour,yourTime.getText());
 
@@ -152,9 +156,9 @@ public class results extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error adding document", e);
                     }
-                });
+                });*/
 
-
+/*
         readData(new FireStoreCallback() {
             @Override
             public void onCallback(List<String> list) {
@@ -170,6 +174,28 @@ public class results extends AppCompatActivity {
                 //waitTime.setText((int) averageTime);
             }
         });
+    }*/
+    readData(new FireStoreCallback() {
+        @Override
+        public void onCallback(List<String> list) {
+
+            int total = 0;
+            for (int i = 0; i < list.size(); i++) {
+                if(!list.get(i).equals(" ")) {
+                    total = total + Integer.parseInt(list.get(i));
+                }
+            }
+
+            //Log.d("total", String.valueOf(total));
+
+            double averageTime = (total * 1.0) / list.size();
+
+            int avg = (int)averageTime;
+
+            waitTime.setText(String.valueOf(avg) + " minutes");
+        }
+    });
+
     }
 
     private void readData(FireStoreCallback fireStoreCallback){
@@ -177,7 +203,7 @@ public class results extends AppCompatActivity {
         TextView placeName = findViewById(R.id.PlaceName);
         String name = placeName.getText().toString();
 
-        List itemList = new ArrayList<>();
+        itemList = new ArrayList<>();
 
         TimeZone tz = TimeZone.getTimeZone("GMT-6");
         Calendar c = Calendar.getInstance(tz);
@@ -193,11 +219,11 @@ public class results extends AppCompatActivity {
                                 //Log.d("pear", document.getId() + " => " + document.getData());
 
                                 if (document.getData().containsKey(currentTimeHour)) {
-                                    itemList.add(document.getData().values());
+                                    String itemName = document.getString(currentTimeHour);
+                                    itemList.add(itemName);
                                 }
-
-                                fireStoreCallback.onCallback(itemList);
                             }
+                            fireStoreCallback.onCallback(itemList);
                         } else {
                             Log.d("pear", "Error getting documents: ", task.getException());
                         }
@@ -317,6 +343,35 @@ public class results extends AppCompatActivity {
             TextView yourTime = findViewById(R.id.timerView);
             //int time = yourTime.getText();
             //TODO: send to db
+
+            TimeZone tz = TimeZone.getTimeZone("GMT-6");
+            Calendar c = Calendar.getInstance(tz);
+
+            String currentTimeHour = String.format("%02d" , c.get(Calendar.HOUR_OF_DAY));
+
+            Map<String, Object> user = new HashMap<>();
+
+            String time = (String) yourTime.getText();
+            String[] colonArray = time.split(":");
+
+
+            user.put(currentTimeHour, colonArray[0]);
+
+            // Add a new document with a generated ID
+            db.collection("restaurants").document(name).collection(name)
+                    .add(user)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error adding document", e);
+                        }
+                    });
         }
     }
 }
