@@ -5,11 +5,16 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -43,6 +48,9 @@ public class results extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private String name;
+
+    LocationManager locationManager;
+    LocationListener locationListener;
 
     //DateFormat timeFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
     //Date rightNow = Calendar.getInstance().getTime();
@@ -213,26 +221,49 @@ public class results extends AppCompatActivity {
     }
 
     private LatLng getMyLocation() {
-        final LatLng[] location = new LatLng[1];
-        int permission = ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permission == PackageManager.PERMISSION_DENIED){
-            Log.i("Main Activity", "permission denied");
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        final LatLng[] curLocation = new LatLng[1];
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location){
+
+                curLocation[0] = new LatLng( location.getLatitude(), location.getLongitude());
+            }
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle){
+
+            }
+            @Override
+            public void onProviderEnabled(String s){
+
+            }
+            @Override
+            public void onProviderDisabled(String s){
+
+            }
+        };
+
+        if(Build.VERSION.SDK_INT < 23){
+            startListening();
+        } else {
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            } else {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if(location != null){
+                    curLocation[0] = new LatLng( location.getLatitude(), location.getLongitude());
+                }
+            }
         }
-        else{
-            mFusedLocationProviderClient.getLastLocation()
-                    .addOnCompleteListener(this, task -> {
-                        Location mLastKnownLocation = task.getResult();
-                        Log.i("Main Activity", task.getResult() + " ");
-                        if (task.isSuccessful() && mLastKnownLocation != null){
-                            Log.i("Main Activity", task.getResult() + "successful");
-                            location[0] = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
-                        }
-                    });
+
+        return curLocation[0];
+    }
+
+    public void startListening(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         }
-        return location[0];
     }
 
     public double getDistance(LatLng loc1, LatLng loc2){
