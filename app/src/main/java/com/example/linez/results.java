@@ -182,7 +182,7 @@ public class results extends AppCompatActivity {
         public void onCallback(List<String> list) {
 
                 int total = 0;
-                for (int i = 0; i < list.size(); i++) {
+                for (int  i = 0; i < list.size(); i++) {
                     if(!list.get(i).equals(" ")) {
                         total = total + Integer.parseInt(list.get(i));
                     }
