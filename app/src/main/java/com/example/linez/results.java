@@ -205,6 +205,15 @@ public class results extends AppCompatActivity {
                 });
     }
 
+    public void homeButton(View view) {
+        startActivity(new Intent(results.this, search.class));
+    }
+
+    public void logoutOnClick(View view) {
+        startActivity(new Intent(results.this, EntrancePage.class));
+    }
+
+
     private interface FireStoreCallback{
         void onCallback(List<String> List);
     }
