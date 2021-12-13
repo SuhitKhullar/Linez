@@ -53,9 +53,6 @@ public class results extends AppCompatActivity {
     LocationListener locationListener;
 
     List itemList;
-
-    List itemList;
-
     //DateFormat timeFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
     //Date rightNow = Calendar.getInstance().getTime();
     //Calendar rightNow = Calendar.getInstance();
@@ -123,12 +120,12 @@ public class results extends AppCompatActivity {
 
         TimeZone tz = TimeZone.getTimeZone("GMT-6");
         Calendar c = Calendar.getInstance(tz);
-        String currentTimeHour = String.format("%02d" , c.get(Calendar.HOUR_OF_DAY));
+        String currentTimeHour = String.format("%02d", c.get(Calendar.HOUR_OF_DAY));
 
 
         //List itemList = new ArrayList<>();
 
-        Log.d("apple",currentTimeHour);
+        Log.d("apple", currentTimeHour);
         Intent i = getIntent();
 
         name = i.getStringExtra("name");
@@ -177,13 +174,13 @@ public class results extends AppCompatActivity {
             }
         });
     }*/
-    readData(new FireStoreCallback() {
-        @Override
-        public void onCallback(List<String> list) {
+        readData(new FireStoreCallback() {
+            @Override
+            public void onCallback(List<String> list) {
 
                 int total = 0;
-                for (int  i = 0; i < list.size(); i++) {
-                    if(!list.get(i).equals(" ")) {
+                for (int i = 0; i < list.size(); i++) {
+                    if (!list.get(i).equals(" ")) {
                         total = total + Integer.parseInt(list.get(i));
                     }
                 }
@@ -192,14 +189,14 @@ public class results extends AppCompatActivity {
 
                 double averageTime = (total * 1.0) / list.size();
 
-                int avg = (int)averageTime;
+                int avg = (int) averageTime;
 
                 waitTime.setText(String.valueOf(avg) + " minutes");
             }
         });
     }
 
-    private void readData(FireStoreCallback fireStoreCallback){
+    private void readData(FireStoreCallback fireStoreCallback) {
 
         TextView placeName = findViewById(R.id.PlaceName);
         String name = placeName.getText().toString();
@@ -208,7 +205,7 @@ public class results extends AppCompatActivity {
 
         TimeZone tz = TimeZone.getTimeZone("GMT-6");
         Calendar c = Calendar.getInstance(tz);
-        String currentTimeHour = String.format("%02d" , c.get(Calendar.HOUR_OF_DAY));
+        String currentTimeHour = String.format("%02d", c.get(Calendar.HOUR_OF_DAY));
 
         db.collection("restaurants").document(name).collection(name)
                 .get()
@@ -241,7 +238,7 @@ public class results extends AppCompatActivity {
     }
 
 
-    private interface FireStoreCallback{
+    private interface FireStoreCallback {
         void onCallback(List<String> List);
     }
 
@@ -261,34 +258,37 @@ public class results extends AppCompatActivity {
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
-            public void onLocationChanged(@NonNull Location location){
+            public void onLocationChanged(@NonNull Location location) {
 
-                curLocation[0] = new LatLng( location.getLatitude(), location.getLongitude());
+                curLocation[0] = new LatLng(location.getLatitude(), location.getLongitude());
             }
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle){
 
-            }
             @Override
-            public void onProviderEnabled(String s){
+            public void onStatusChanged(String s, int i, Bundle bundle) {
 
             }
+
             @Override
-            public void onProviderDisabled(String s){
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
 
             }
         };
 
-        if(Build.VERSION.SDK_INT < 23){
+        if (Build.VERSION.SDK_INT < 23) {
             startListening();
         } else {
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             } else {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if(location != null){
-                    curLocation[0] = new LatLng( location.getLatitude(), location.getLongitude());
+                if (location != null) {
+                    curLocation[0] = new LatLng(location.getLatitude(), location.getLongitude());
                 }
             }
         }
@@ -296,35 +296,35 @@ public class results extends AppCompatActivity {
         return curLocation[0];
     }
 
-    public void startListening(){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+    public void startListening() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         }
     }
 
-    public double getDistance(LatLng loc1, LatLng loc2){
+    public double getDistance(LatLng loc1, LatLng loc2) {
         double lon1 = Math.toRadians(loc1.longitude);
         double lat1 = Math.toRadians(loc1.latitude);
 
         double lon2 = Math.toRadians(loc2.longitude);
         double lat2 = Math.toRadians(loc2.latitude);
 
-        double a = Math.pow(Math.sin((lat2 - lat1)/2), 2) +
+        double a = Math.pow(Math.sin((lat2 - lat1) / 2), 2) +
                 Math.cos(lat1) * Math.cos(lat2)
-                * Math.pow(Math.sin((lon2 - lon1)/2), 2);
+                        * Math.pow(Math.sin((lon2 - lon1) / 2), 2);
 
         double c = 2 * Math.asin(Math.sqrt(a));
         double radius = 6371;
         return (c * radius);
     }
 
-    public void onSubmitClick(View view){
+    public void onSubmitClick(View view) {
         LatLng userLocation = getMyLocation();
         Log.i("results", "got user location successfully");
 
         LatLng restaurantLocation = null;
         ArrayList<LinezLocation> places = search.generateLocations();
-        for (LinezLocation place:places){
+        for (LinezLocation place : places) {
             if (name.equals(place.getName()))
                 restaurantLocation = new LatLng(place.getLatitude(), place.getLongitude());
         }
@@ -336,42 +336,42 @@ public class results extends AppCompatActivity {
         double distance = getDistance(userLocation, restaurantLocation);
         Log.i("results", "distance: " + String.valueOf(distance));
 
-        if (distance >= 0.03){
+        if (distance >= 0.03) {
             ExampleDialog exampleDialog = new ExampleDialog();
             exampleDialog.show(getSupportFragmentManager(), "example dialog");
-        }
-        else{
+        } else {
             TextView yourTime = findViewById(R.id.timerView);
-            //int time = yourTime.getText();
-            //TODO: send to db
 
-        TimeZone tz = TimeZone.getTimeZone("GMT-6");
-        Calendar c = Calendar.getInstance(tz);
+            TimeZone tz = TimeZone.getTimeZone("GMT-6");
+            Calendar c = Calendar.getInstance(tz);
 
-        String currentTimeHour = String.format("%02d" , c.get(Calendar.HOUR_OF_DAY));
+            String currentTimeHour = String.format("%02d", c.get(Calendar.HOUR_OF_DAY));
 
-        Map<String, Object> user = new HashMap<>();
+            Map<String, Object> user = new HashMap<>();
 
-        String time = (String) yourTime.getText();
-        String[] colonArray = time.split(":");
+            String time = (String) yourTime.getText();
+            String[] colonArray = time.split(":");
 
 
-        user.put(currentTimeHour, colonArray[0]);
+            user.put(currentTimeHour, colonArray[0]);
 
-        // Add a new document with a generated ID
-        db.collection("restaurants").document(name).collection(name)
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+            // Add a new document with a generated ID
+            db.collection("restaurants").document(name).collection(name)
+                    .add(user)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error adding document", e);
+                        }
+                    });
+            SuccessDialog successDialog = new SuccessDialog();
+            successDialog.show(getSupportFragmentManager(), "success dialog");
+        }
     }
 }
