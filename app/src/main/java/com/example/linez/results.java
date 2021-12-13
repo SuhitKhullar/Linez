@@ -191,7 +191,7 @@ public class results extends AppCompatActivity {
 
                 int avg = (int) averageTime;
 
-                waitTime.setText(String.valueOf(avg) + " minutes");
+                waitTime.setText("Estimated wait time: " + String.valueOf(avg) + " minutes");
             }
         });
     }
