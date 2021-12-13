@@ -54,6 +54,8 @@ public class results extends AppCompatActivity {
 
     List itemList;
 
+    List itemList;
+
     //DateFormat timeFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
     //Date rightNow = Calendar.getInstance().getTime();
     //Calendar rightNow = Calendar.getInstance();
@@ -179,23 +181,22 @@ public class results extends AppCompatActivity {
         @Override
         public void onCallback(List<String> list) {
 
-            int total = 0;
-            for (int i = 0; i < list.size(); i++) {
-                if(!list.get(i).equals(" ")) {
-                    total = total + Integer.parseInt(list.get(i));
+                int total = 0;
+                for (int i = 0; i < list.size(); i++) {
+                    if(!list.get(i).equals(" ")) {
+                        total = total + Integer.parseInt(list.get(i));
+                    }
                 }
+
+                //Log.d("total", String.valueOf(total));
+
+                double averageTime = (total * 1.0) / list.size();
+
+                int avg = (int)averageTime;
+
+                waitTime.setText(String.valueOf(avg) + " minutes");
             }
-
-            //Log.d("total", String.valueOf(total));
-
-            double averageTime = (total * 1.0) / list.size();
-
-            int avg = (int)averageTime;
-
-            waitTime.setText(String.valueOf(avg) + " minutes");
-        }
-    });
-
+        });
     }
 
     private void readData(FireStoreCallback fireStoreCallback){
@@ -344,34 +345,33 @@ public class results extends AppCompatActivity {
             //int time = yourTime.getText();
             //TODO: send to db
 
-            TimeZone tz = TimeZone.getTimeZone("GMT-6");
-            Calendar c = Calendar.getInstance(tz);
+        TimeZone tz = TimeZone.getTimeZone("GMT-6");
+        Calendar c = Calendar.getInstance(tz);
 
-            String currentTimeHour = String.format("%02d" , c.get(Calendar.HOUR_OF_DAY));
+        String currentTimeHour = String.format("%02d" , c.get(Calendar.HOUR_OF_DAY));
 
-            Map<String, Object> user = new HashMap<>();
+        Map<String, Object> user = new HashMap<>();
 
-            String time = (String) yourTime.getText();
-            String[] colonArray = time.split(":");
+        String time = (String) yourTime.getText();
+        String[] colonArray = time.split(":");
 
 
-            user.put(currentTimeHour, colonArray[0]);
+        user.put(currentTimeHour, colonArray[0]);
 
-            // Add a new document with a generated ID
-            db.collection("restaurants").document(name).collection(name)
-                    .add(user)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error adding document", e);
-                        }
-                    });
-        }
+        // Add a new document with a generated ID
+        db.collection("restaurants").document(name).collection(name)
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
     }
 }
