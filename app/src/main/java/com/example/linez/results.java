@@ -11,9 +11,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.LayoutDirection;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -57,6 +59,24 @@ public class results extends AppCompatActivity {
 
     //String apple = String(currentHourIn24Format);
 
+    TextView timerView;
+    long startTime = 0;
+
+    //runs without a timer by reposting this handler at the end of the runnable
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            long ms = System.currentTimeMillis() - startTime;
+            int sec = (int) (ms / 1000);
+            int min = sec / 60;
+            sec = sec % 60;
+
+            timerView.setText(String.format("%d:%02d", min, sec));
+            timerHandler.postDelayed(this, 500);
+        }
+    };
 
 
     @Override
@@ -65,9 +85,29 @@ public class results extends AppCompatActivity {
         setContentView(R.layout.activity_results);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
+        timerView = (TextView) findViewById(R.id.timerView);
+
+        Button b = (Button) findViewById(R.id.start);
+        b.setText("start");
+        b.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Button b = (Button) v;
+                if (b.getText().equals("stop")) {
+                    timerHandler.removeCallbacks(timerRunnable);
+                    b.setText("start");
+                } else {
+                    startTime = System.currentTimeMillis();
+                    timerHandler.postDelayed(timerRunnable, 0);
+                    b.setText("stop");
+                }
+            }
+        });
+
         TextView placeName = findViewById(R.id.PlaceName);
         TextView waitTime = findViewById(R.id.WaitTime);
-        TextView yourTime = findViewById(R.id.yourTime);
+        TextView yourTime = findViewById(R.id.timerView);
 
         TimeZone tz = TimeZone.getTimeZone("GMT-6");
         Calendar c = Calendar.getInstance(tz);

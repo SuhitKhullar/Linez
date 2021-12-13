@@ -30,20 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/PlaceName" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="300dp"
-        android:layout_height="93dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Hello , use button below"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/WaitTime" />
-
-    <TextView
-        android:id="@+id/yourTime"
+        android:id="@+id/timerView"
         android:layout_width="309dp"
         android:layout_height="50dp"
         android:layout_marginBottom="16dp"
@@ -57,24 +44,15 @@
         android:id="@+id/start"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="64dp"
         android:background="#FFFFFF"
-        android:text="start"
         android:onClick="startClick"
+        android:text="start"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/stop"
+        app:layout_constraintBottom_toTopOf="@+id/timerView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="TextContrastCheck" />
-
-    <Button
-        android:id="@+id/stop"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="stop"
-        app:layout_constraintBottom_toTopOf="@+id/yourTime"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
