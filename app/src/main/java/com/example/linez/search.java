@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -81,10 +82,13 @@ public class search extends AppCompatActivity   {
             //code to display marker
 
             for(LinezLocation location : places) {
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                        .position(latLng)
                         .title(location.getName()));
             }
+            float zoomLevel = 14.0f; //This goes up to 21
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.0731, -89.4012), zoomLevel));
         });
     }
 
