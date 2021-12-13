@@ -58,6 +58,7 @@ public class results extends AppCompatActivity {
 
     TextView timerView;
     long startTime = 0;
+    long elapsedTime = 0;
 
     //runs without a timer by reposting this handler at the end of the runnable
     Handler timerHandler = new Handler();
@@ -86,16 +87,18 @@ public class results extends AppCompatActivity {
 
         Button b = (Button) findViewById(R.id.start);
         b.setText("start");
+
         b.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Button b = (Button) v;
                 if (b.getText().equals("stop")) {
+                    elapsedTime = System.currentTimeMillis() - startTime;
                     timerHandler.removeCallbacks(timerRunnable);
                     b.setText("start");
                 } else {
-                    startTime = System.currentTimeMillis();
+                    startTime = System.currentTimeMillis() - elapsedTime;
                     timerHandler.postDelayed(timerRunnable, 0);
                     b.setText("stop");
                 }
