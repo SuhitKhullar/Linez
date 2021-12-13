@@ -201,7 +201,18 @@ public class results extends AppCompatActivity {
         void onCallback(List<String> List);
     }
 
-    public LatLng getMyLocation() {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+            if (grantResults.length > 0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getMyLocation();
+            }
+        }
+    }
+
+    private LatLng getMyLocation() {
         final LatLng[] location = new LatLng[1];
         int permission = ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
         if (permission == PackageManager.PERMISSION_DENIED){
@@ -259,9 +270,13 @@ public class results extends AppCompatActivity {
         Log.i("results", "distance: " + String.valueOf(distance));
 
         if (distance >= 0.03){
-            // "error must be within 100ft of restaurant to report line times"
+            ExampleDialog exampleDialog = new ExampleDialog();
+            exampleDialog.show(getSupportFragmentManager(), "example dialog");
         }
-
+        else{
+            TextView yourTime = findViewById(R.id.timerView);
+            //int time = yourTime.getText();
+            //TODO: send to db
+        }
     }
-
 }
